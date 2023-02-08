@@ -1,27 +1,10 @@
-import argentBankLogo from './assets/img/argentBankLogo.png'
-import iconChat from './assets/img/icon-chat.png'
-import iconMoney from './assets/img/icon-money.png'
-import iconSecurity from './assets/img/icon-security.png'
+import iconChat from '../assets/img/icon-chat.png'
+import iconMoney from '../assets/img/icon-money.png'
+import iconSecurity from '../assets/img/icon-security.png'
 
-function App() {
+function Homepage() {
   return (
     <div>
-    <nav className="main-nav">
-      <a className="main-nav-logo" href="./index.html">
-        <img
-          className="main-nav-logo-image"
-          src={argentBankLogo}
-          alt="Argent Bank Logo"
-        />
-        <h1 className="sr-only">Argent Bank</h1>
-      </a>
-      <div>
-        <a className="main-nav-item" href="./sign-in.html">
-          <i className="fa fa-user-circle"></i>
-          Sign In
-        </a>
-      </div>
-    </nav>
     <main>
       <div className="hero">
         <section className="hero-content">
@@ -67,11 +50,8 @@ function App() {
         </div>
       </section>
     </main>
-    <footer className="footer">
-      <p className="footer-text">Copyright 2020 Argent Bank</p>
-    </footer>
   </div>
   );
 }
 
-export default App;
+export default Homepage;
