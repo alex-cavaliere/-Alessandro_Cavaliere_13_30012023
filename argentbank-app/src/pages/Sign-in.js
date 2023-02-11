@@ -1,5 +1,12 @@
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom";
 
 function SignInPage(){
+    const onNavigate = useNavigate()
+    const userPage = (e) => {
+        e.preventDefault();
+        onNavigate('/user')
+    }
     return(
         <main style={{padding:'8rem'}} className="main bg-dark">
             <section className="sign-in-content">
@@ -18,7 +25,7 @@ function SignInPage(){
                         <label htmlFor="remember-me">Remember me</label>
                         <input type="checkbox" id="remember-me" />
                     </div>
-                    <button className="sign-in-button">Sign In</button> 
+                    <button onClick={userPage} className="sign-in-button">Sign In</button> 
                 </form>
             </section>
         </main>

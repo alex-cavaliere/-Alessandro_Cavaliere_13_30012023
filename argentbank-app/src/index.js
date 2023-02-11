@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Homepage from './pages/Homepage';
 import SignInPage from './pages/Sign-in';
+import UserPage from './pages/UserPage';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,8 +15,9 @@ root.render(
     <Router>
       <Header/>
       <Routes>
-        <Route exact path='/' element={<Homepage />}/>
+        <Route exact path='/' element={<Homepage/>}/>
         <Route path='/sign-in' element={<SignInPage/>}/>
+        <Route path='/user' element={<UserPage/>}/>
       </Routes>
       <Footer/>
     </Router>
