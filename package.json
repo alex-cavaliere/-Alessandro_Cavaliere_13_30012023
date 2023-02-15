@@ -17,7 +17,9 @@
     "mongo": "^0.1.0",
     "mongodb": "^5.0.1",
     "mongoose": "^5.13.15",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
+    "redux": "^4.2.1",
     "swagger-ui-express": "^4.1.4",
     "yamljs": "^0.3.0"
   },
