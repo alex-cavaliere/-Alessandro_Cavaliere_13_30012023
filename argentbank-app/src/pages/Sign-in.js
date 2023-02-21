@@ -1,16 +1,37 @@
 import { useNavigate } from "react-router-dom";
-import LoginFetch from "../services/LoginFetch";
+import { useEffect, useState } from "react";
+import { authSuccessful, authFailed, store } from "../store";
+import { LoginFetch } from "../services/LoginFetch";
+import { useSelector, useDispatch } from "react-redux";
 
 function SignInPage(){
     const onNavigate = useNavigate()
-    const token = LoginFetch('tony@stark.com', 'password123')
+    const dispatch = useDispatch()
+    const login = useSelector((state) => state.login)
+    const [credentials, setCredetials] = useState(login)
+    /*const token = LoginFetch({
+        email: 'tony@stark.com', 
+        password: 'password123'
+    })
     if(!token.isLoading){
         console.log(token)
+    }*/
+    const handleInput = (e) => {
+        const value = e.target.value
+        let name = e.target.id
+        if(name === 'username'){
+            name = 'email'
+        }
+        setCredetials({
+            ...login,
+            [name] : value
+        })
     }
-
-    const userAuth = (e) => {
-        let userName = document.getElementById('username')
-        let userPasswd = document.getElementById('password')
+    const UserAuth = (e) => {
+        console.log(credentials)
+        dispatch(authSuccessful())
+        console.log(credentials)
+        e.preventDefault()  
         onNavigate('/user')
     }
     return(
@@ -18,14 +39,14 @@ function SignInPage(){
             <section className="sign-in-content">
                 <i className="fa fa-user-circle sign-in-icon"></i>
                 <h1>Sign In</h1>
-                <form onSubmit={userAuth}>
+                <form onSubmit={UserAuth}>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" />
+                        <input onChange={handleInput} type="text" id="username" />
                     </div>
                     <div className="input-wrapper">
                         <label htmlFor="password">Password</label>
-                        <input type="current-password" id="password" />
+                        <input onChange={handleInput} type="current-password" id="password" />
                     </div>
                     <div className="input-remember">
                         <label htmlFor="remember-me">Remember me</label>
