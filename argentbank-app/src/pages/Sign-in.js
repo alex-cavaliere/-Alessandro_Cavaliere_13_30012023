@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { authSuccessful, authFailed, store } from "../store";
+import { authSuccessful, authFailed, updateState, store } from "../store";
 import { LoginFetch } from "../services/LoginFetch";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -8,7 +8,6 @@ function SignInPage(){
     const onNavigate = useNavigate()
     const dispatch = useDispatch()
     const login = useSelector((state) => state.login)
-    const [credentials, setCredetials] = useState(login)
     /*const token = LoginFetch({
         email: 'tony@stark.com', 
         password: 'password123'
@@ -22,15 +21,15 @@ function SignInPage(){
         if(name === 'username'){
             name = 'email'
         }
-        setCredetials({
+        dispatch(updateState({
             ...login,
-            [name] : value
-        })
+            [name]: value
+        }))
     }
+    console.log(login)
     const UserAuth = (e) => {
-        console.log(credentials)
-        dispatch(authSuccessful())
-        console.log(credentials)
+  
+        console.log(login)
         e.preventDefault()  
         onNavigate('/user')
     }

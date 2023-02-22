@@ -21,11 +21,15 @@ const loginSlice = createSlice({
     },
     authFailed: (state, action) => {
       state.authSucces = false
-      state.email = action.payload
+      state.error = action.payload
+    },
+    updateState: (state, action) => {
+      state.email = action.payload.email
+      state.password = action.payload.password
     }
   }
 })
-export const {authSuccessful, authFailed} =  loginSlice.actions
+export const {authSuccessful, authFailed, updateState} =  loginSlice.actions
 
 export const store = configureStore({
   reducer: {
