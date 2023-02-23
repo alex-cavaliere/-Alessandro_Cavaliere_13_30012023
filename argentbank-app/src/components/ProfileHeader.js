@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom"
 import argentBankLogo from "../assets/img/argentBankLogo.png"
+import { NavLink } from "react-router-dom"
 
-function Header(){
+function ProfileHeader(props){
+    const firstName = props.firstName
     return(
         <nav className="main-nav">
             <NavLink to='/' className="main-nav-logo">
@@ -13,13 +14,19 @@ function Header(){
                 <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
             <div>
-                <NavLink to='/sign-in' className="main-nav-item">
+                <i style={{
+                    'marginRight': '2rem',
+                    'fontWeight': 'bold'
+                    }} 
+                    className="fa fa-user-circle">{firstName}
+                    </i>
+                <NavLink to='/' className="main-nav-item">
                     <i className="fa fa-user-circle"></i>
-                    Sign In
+                    log out
                 </NavLink>
             </div>
         </nav>
     )
 }
 
-export default Header
+export default ProfileHeader
