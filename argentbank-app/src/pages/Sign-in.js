@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { authSuccessful, authFailed, updateState, store, credentials } from "../store";
-import { LoginFetch } from "../services/LoginFetch";
+import { authSuccessful, authFailed, resetState, updateCredentials, rememberState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import LoginHeader from '../components/LoginHeader';
 
@@ -12,23 +11,26 @@ function SignInPage(){
     const onNavigate = useNavigate()
     const dispatch = useDispatch()
     const login = useSelector((state) => state.login)
-    /*const token = LoginFetch({
-        email: 'tony@stark.com', 
-        password: 'password123'
-    })
-    if(!token.isLoading){
-        console.log(token)
-    }*/
+   const [credentials, setCredentials] = useState({
+    email: '',
+    password: ''
+   })
     const handleInput = (e) => {
         const value = e.target.value
         let name = e.target.id
         if(name === 'username'){
             name = 'email'
         }
-        dispatch(credentials({
-            ...login,
+        if(login.isRemember){
+            dispatch(updateCredentials({
+                ...login,
+                [name]: value
+            }))
+        }
+        setCredentials({
+            ...credentials,
             [name]: value
-        }))
+        })
     }
     const UserAuth = (e) => {
         e.preventDefault()
@@ -38,14 +40,19 @@ function SignInPage(){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: login.email,
-                password: login.password
+                email: credentials.email,
+                password: credentials.password
             })
         })
+        /*
+        email: login.isRemember ? login.email : credentials.email,        
+        password: login.isRemember ? login.password : credentials.password
+        */
         .then(res => res.json())
         .then(data => {
-            if(data.body.token){
-                localStorage.setItem('jwt', data.body.token)
+            localStorage.setItem('jwt', data.body.token)
+            const token = localStorage.getItem('jwt')
+            if(token){
                 fetch(userUrl, {
                     method: 'POST',
                     headers: {
@@ -54,20 +61,21 @@ function SignInPage(){
                 })
                 .then(res => res.json())
                 .then(user => {
+                    console.log(user.body)
                     dispatch(authSuccessful(user.body))
                     onNavigate(`/user/${user.body.id}`)
                 })
-                return login
             }else{
                 dispatch(authFailed())            
             }
         })
         .catch(err => {
-            console.log(err)
-            alert('identifiant incorrenct')
+            console.log(err + 'identifiant incorrenct')
         })
     }
-    console.log(login)
+    const handleChange = () => {
+        dispatch(rememberState())
+    }
     return(
         <div className="login">
             <LoginHeader />
@@ -86,7 +94,7 @@ function SignInPage(){
                         </div>
                         <div className="input-remember">
                             <label htmlFor="remember-me">Remember me</label>
-                            <input type="checkbox" id="remember-me" />
+                            <input type="checkbox" checked={login.isRemember} onChange={handleChange} id="remember-me" />
                         </div>
                         <button className="sign-in-button">Sign In</button> 
                     </form>
