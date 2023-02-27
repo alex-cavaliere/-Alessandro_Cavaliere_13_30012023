@@ -40,14 +40,10 @@ function SignInPage(){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password
+                email: login.isRemember ? login.email : credentials.email,        
+                password: login.isRemember ? login.password : credentials.password
             })
         })
-        /*
-        email: login.isRemember ? login.email : credentials.email,        
-        password: login.isRemember ? login.password : credentials.password
-        */
         .then(res => res.json())
         .then(data => {
             localStorage.setItem('jwt', data.body.token)
