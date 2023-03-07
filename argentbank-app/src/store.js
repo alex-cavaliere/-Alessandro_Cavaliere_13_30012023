@@ -1,4 +1,4 @@
-import { configureStore, createAction, createSlice } from '@reduxjs/toolkit'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
 
 // Action Creator
 
@@ -15,6 +15,7 @@ const loginSlice = createSlice({
     authSuccessful: (state, action) => {
       state.isAuth = true
       state.email = action.payload.email
+      state.id = action.payload.id
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
     },
@@ -22,25 +23,35 @@ const loginSlice = createSlice({
         state.email = action.payload.email
         state.password = action.payload.password
     },
+    updateProfile: (state, action) => {
+      state.firstName = action.payload.firstName
+      state.lastName = action.payload.lastName
+    },
     authFailed: (state) => {
       state.isAuth = false
+      state.isRemember = false
     },
     resetState: (state, action) => {
-      action.payload.email = ''
-      action.payload.firstName = ''
-      action.payload.lastName = ''
-      action.payload.isAuth = false
+      state.email = ''
+      state.firstName = ''
+      state.lastName =  ''
+      state.isAuth = !action.payload.isAuth
     },
     rememberState: (state) => {
       state.isRemember = !state.isRemember
-    }
+    },
+    editState: (state) => {
+      state.isEdit = !state.isEdit
+    },
   }
 })
-export const {authSuccessful, authFailed, resetState, updateCredentials, rememberState} =  loginSlice.actions
+
+
+export const {authSuccessful, authFailed, resetState, updateCredentials, updateProfile, editState, rememberState} =  loginSlice.actions
 
 export const store = configureStore({
   reducer: {
-  login: loginSlice.reducer
+    login: loginSlice.reducer
   }
 })
 

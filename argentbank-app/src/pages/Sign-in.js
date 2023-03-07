@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { authSuccessful, authFailed, resetState, updateCredentials, rememberState } from "../store";
+import { authSuccessful, authFailed, resetState, updateCredentials, rememberState, updateProfile } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import LoginHeader from '../components/LoginHeader';
 
@@ -11,22 +11,24 @@ function SignInPage(){
     const onNavigate = useNavigate()
     const dispatch = useDispatch()
     const login = useSelector((state) => state.login)
-   const [credentials, setCredentials] = useState({
+    //console.log(login)
+    const [credentials, setCredentials] = useState({
     email: '',
     password: ''
-   })
+    })
     const handleInput = (e) => {
         const value = e.target.value
         let name = e.target.id
         if(name === 'username'){
             name = 'email'
         }
-        if(login.isRemember){
-            dispatch(updateCredentials({
-                ...login,
-                [name]: value
-            }))
-        }
+
+        // if Remember checked update state
+        dispatch(updateCredentials({
+            ...credentials,
+            [name]: value
+        }))
+        // else set local state
         setCredentials({
             ...credentials,
             [name]: value
@@ -49,18 +51,7 @@ function SignInPage(){
             localStorage.setItem('jwt', data.body.token)
             const token = localStorage.getItem('jwt')
             if(token){
-                fetch(userUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer' + data.body.token
-                    }
-                })
-                .then(res => res.json())
-                .then(user => {
-                    console.log(user.body)
-                    dispatch(authSuccessful(user.body))
-                    onNavigate(`/user/${user.body.id}`)
-                })
+                onNavigate(`/user`)
             }else{
                 dispatch(authFailed())            
             }
@@ -72,6 +63,7 @@ function SignInPage(){
     const handleChange = () => {
         dispatch(rememberState())
     }
+    console.log(login)
     return(
         <div className="login">
             <LoginHeader />

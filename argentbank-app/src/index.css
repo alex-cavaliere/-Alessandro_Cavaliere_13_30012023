@@ -5,7 +5,10 @@ html {
   text-align: center;
   color: #2c3e50;
 }
-
+.header input, .header button {
+  margin: 1rem;
+  padding: 0.5rem; 
+}
 body {
   margin: 0;
   display: flex;
