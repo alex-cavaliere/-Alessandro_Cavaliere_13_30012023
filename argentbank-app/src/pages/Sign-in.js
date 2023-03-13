@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { authSuccessful, authFailed, resetState, updateCredentials, rememberState, updateProfile } from "../store";
+import { authSuccessful, authFailed } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import LoginHeader from '../components/LoginHeader';
 
@@ -11,28 +11,24 @@ function SignInPage(){
     const onNavigate = useNavigate()
     const dispatch = useDispatch()
     const login = useSelector((state) => state.login)
+    const [isChecked, setChecked] = useState(localStorage.getItem('isRemember') || false);
     //console.log(login)
     const [credentials, setCredentials] = useState({
     email: '',
     password: ''
     })
     const handleInput = (e) => {
+        const placeholder = e.target.placeholder
         const value = e.target.value
         let name = e.target.id
         if(name === 'username'){
             name = 'email'
         }
-
-        // if Remember checked update state
-        dispatch(updateCredentials({
-            ...credentials,
-            [name]: value
-        }))
-        // else set local state
         setCredentials({
             ...credentials,
             [name]: value
         })
+        console.log(placeholder)
     }
     const UserAuth = (e) => {
         e.preventDefault()
@@ -42,8 +38,8 @@ function SignInPage(){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: login.isRemember ? login.email : credentials.email,        
-                password: login.isRemember ? login.password : credentials.password
+                email: JSON.parse(isRemember) ? email : credentials.email,        
+                password: JSON.parse(isRemember) ? password : credentials.password
             })
         })
         .then(res => res.json())
@@ -60,10 +56,23 @@ function SignInPage(){
             console.log(err + 'identifiant incorrenct')
         })
     }
-    const handleChange = () => {
-        dispatch(rememberState())
-    }
-    console.log(login)
+    
+    const onCheckboxChange = (key, value) => {
+        localStorage.setItem(key, value)
+        localStorage.setItem('email', credentials.email)
+        localStorage.setItem('password', credentials.password)
+        setChecked(value)
+    };
+    
+    const isRemember = localStorage.getItem('isRemember')
+    const email = localStorage.getItem('email')
+    const password = localStorage.getItem('password')
+    useEffect(() => {
+        if(JSON.parse(!isChecked)){
+            localStorage.removeItem('email')
+            localStorage.removeItem('password')
+        }
+    },[credentials.email, credentials.password, isChecked])
     return(
         <div className="login">
             <LoginHeader />
@@ -74,15 +83,15 @@ function SignInPage(){
                     <form onSubmit={UserAuth}>
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
-                            <input onChange={handleInput} type="text" id="username" />
+                            <input onChange={handleInput} placeholder={email} type="text" id="username" />
                         </div>
                         <div className="input-wrapper">
                             <label htmlFor="password">Password</label>
-                            <input onChange={handleInput} type="current-password" id="password" />
+                            <input onChange={handleInput} placeholder={password} type="current-password" id="password" />
                         </div>
                         <div className="input-remember">
                             <label htmlFor="remember-me">Remember me</label>
-                            <input type="checkbox" checked={login.isRemember} onChange={handleChange} id="remember-me" />
+                            <input type="checkbox" checked={JSON.parse(isChecked)} value={isChecked} onChange={(e) => onCheckboxChange('isRemember', e.target.checked)} id="remember-me" />
                         </div>
                         <button className="sign-in-button">Sign In</button> 
                     </form>

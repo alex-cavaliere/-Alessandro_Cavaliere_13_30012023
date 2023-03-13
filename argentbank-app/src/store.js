@@ -8,9 +8,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 
 const loginSlice = createSlice({
   name: 'login',
-  initialState: {
-    isRemember: false
-  },
+  initialState: {},
   reducers: {
     authSuccessful: (state, action) => {
       state.isAuth = true
@@ -31,14 +29,11 @@ const loginSlice = createSlice({
       state.isAuth = false
       state.isRemember = false
     },
-    resetState: (state, action) => {
+    resetState: (state) => {
       state.email = ''
       state.firstName = ''
       state.lastName =  ''
-      state.isAuth = !action.payload.isAuth
-    },
-    rememberState: (state) => {
-      state.isRemember = !state.isRemember
+      state.isAuth = false
     },
     editState: (state) => {
       state.isEdit = !state.isEdit
@@ -47,7 +42,7 @@ const loginSlice = createSlice({
 })
 
 
-export const {authSuccessful, authFailed, resetState, updateCredentials, updateProfile, editState, rememberState} =  loginSlice.actions
+export const {authSuccessful, authFailed, resetState, updateCredentials, updateProfile, editState} =  loginSlice.actions
 
 export const store = configureStore({
   reducer: {
