@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { userUrl } from "./Sign-in"
-import { authSuccessful, authFailed, editState, updateProfile } from "../store";
+import { authSuccessful, authFailed, editState } from "../store";
 import ProfileHeader from "../components/ProfileHeader";
 import EditName from "../components/EditName";
 

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { authSuccessful, authFailed } from "../store";
-import { useSelector, useDispatch } from "react-redux";
+import { authFailed } from "../store";
+import { useDispatch } from "react-redux";
 import LoginHeader from '../components/LoginHeader';
 
 const loginUrl = 'http://localhost:3001/api/v1/user/login'
@@ -10,7 +10,6 @@ export const userUrl = 'http://localhost:3001/api/v1/user/profile'
 function SignInPage(){
     const onNavigate = useNavigate()
     const dispatch = useDispatch()
-    const login = useSelector((state) => state.login)
     const [isChecked, setChecked] = useState(localStorage.getItem('isRemember') || false);
     //console.log(login)
     const [credentials, setCredentials] = useState({
@@ -49,7 +48,7 @@ function SignInPage(){
             if(token){
                 onNavigate(`/user`)
             }else{
-                dispatch(authFailed())            
+                dispatch(authFailed()) 
             }
         })
         .catch(err => {
