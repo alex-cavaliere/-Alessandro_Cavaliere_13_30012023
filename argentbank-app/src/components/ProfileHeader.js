@@ -20,7 +20,7 @@ function ProfileHeader(props){
                 />
                 <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
-            <div>
+            <div className='userheader'>
                 <i style={{
                     'marginRight': '2rem',
                     'fontWeight': 'bold'

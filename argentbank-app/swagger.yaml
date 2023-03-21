@@ -32,7 +32,7 @@ paths:
         '200':
           description: Account transactions retrieved successfully
           schema:
-            $ref: '#/definitions/Transactions'
+            $ref: '#/definitions/TransactionsRes'
         '400':
           description: Invalid Fields
         '500':
@@ -116,7 +116,7 @@ paths:
           schema:
             $ref: '#/definitions/Transactions'
         '400':
-          description: Bad request. User ID/ transaction ID must be an integer and larger than 0.
+          description: Bad request.
         '500':
           description: Internal Server Error
   /{userId}/transactions/{transactionsId}/notes:
@@ -175,7 +175,7 @@ paths:
           schema:
             $ref: '#/definitions/Transactions'
         '400':
-          description: Bad request. User ID/ transaction ID must be an integer and larger than 0.
+          description: Bad request.
         '500':
           description: Internal Server Error  
 securityDefinitions:
@@ -184,6 +184,24 @@ securityDefinitions:
     name: Authorization
     in: header
 definitions:
+  TransactionsRes:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties: 
+          transactionId:
+            type: string
+          transactionType: 
+            type: string
+          amount:
+            type: number
+          balance: 
+            type: number
   Transactions:
     type: object
     properties:

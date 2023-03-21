@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
-import { authSuccessful, editState, updateProfile, store } from "../store"
+import { authSuccessful, editState } from "../store"
 import { userUrl } from '../pages/Sign-in'
 
 function EditName(){

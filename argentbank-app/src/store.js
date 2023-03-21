@@ -17,14 +17,6 @@ const loginSlice = createSlice({
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
     },
-    updateCredentials: (state, action) => {
-        state.email = action.payload.email
-        state.password = action.payload.password
-    },
-    updateProfile: (state, action) => {
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-    },
     authFailed: (state) => {
       state.isAuth = false
       state.isRemember = false
@@ -42,7 +34,7 @@ const loginSlice = createSlice({
 })
 
 
-export const {authSuccessful, authFailed, resetState, updateCredentials, updateProfile, editState} =  loginSlice.actions
+export const {authSuccessful, authFailed, resetState, editState} =  loginSlice.actions
 
 export const store = configureStore({
   reducer: {
