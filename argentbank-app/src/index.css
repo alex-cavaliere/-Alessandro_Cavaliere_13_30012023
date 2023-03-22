@@ -136,7 +136,10 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+.error-message{
+  color: rgb(150, 39, 39);
+  font-weight: bold;
+}
 @media (min-width: 910px) {
   .features {
     flex-direction: row;

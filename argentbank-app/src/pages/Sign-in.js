@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { authFailed } from "../store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoginHeader from '../components/LoginHeader';
 
 const loginUrl = 'http://localhost:3001/api/v1/user/login'
@@ -10,6 +10,7 @@ export const userUrl = 'http://localhost:3001/api/v1/user/profile'
 function SignInPage(){
     const onNavigate = useNavigate()
     const dispatch = useDispatch()
+    const login = useSelector((state) => state.login)
     const [isChecked, setChecked] = useState(localStorage.getItem('isRemember') || false);
     //console.log(login)
     const [credentials, setCredentials] = useState({
@@ -53,6 +54,9 @@ function SignInPage(){
         })
         .catch(err => {
             console.log(err + 'identifiant incorrenct')
+            if(!login.isAuth){
+                document.querySelector('.error-message').innerHTML = 'identifiant incorrenct'
+            }
         })
     }
     
@@ -93,6 +97,7 @@ function SignInPage(){
                             <input type="checkbox" checked={JSON.parse(isChecked)} value={isChecked} onChange={(e) => onCheckboxChange('isRemember', e.target.checked)} id="remember-me" />
                         </div>
                         <button className="sign-in-button">Sign In</button> 
+                        <p className="error-message"></p>
                     </form>
                 </section>
             </main>
